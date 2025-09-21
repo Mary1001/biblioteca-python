@@ -1,10 +1,27 @@
-#Modelo Lógico,  Lógica de Negocio, Modelo de negocio 
-
+import os
 from pymongo import MongoClient
 from bson import ObjectId
+from dotenv import load_dotenv
 
-client = MongoClient("mongodb://localhost:27017/")
-db = client["Biblioteca_4APV_Capas"]
+# 1. Cargar variables del .env
+load_dotenv()
+
+# 2. Obtener URI
+uri = os.getenv("MONGO_URI")
+
+# 3. Conectar Atlas
+client = MongoClient(uri)
+
+# 4. Seleccionar base de datos
+db = client["mi_biblioteca"]
+
+# 5. (Opcional) Verificar conexión
+try:
+    print("✅ Conectado a MongoDB Atlas")
+    print("Bases de datos disponibles:", client.list_database_names())
+except Exception as e:
+    print("❌ Error de conexión:", e)
+
 libros = db["libros"]
 alumnos = db["alumnos"]  # Nombre de la colección
 prestamos = db["prestamos"]
@@ -46,4 +63,11 @@ def seleccionar_alumno(alumno):
     return list(alumnos.find(alumno))
 
 def seleccionar_libro(libro):
+     return list(alumnos.find(libro))
+
+def seleccionar_alumno(alumno):
+    return list(alumnos.find(alumno))
+
+def seleccionar_libro(libro):
+
      return list(alumnos.find(libro))
